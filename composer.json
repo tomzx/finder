@@ -1,0 +1,41 @@
+{
+	"name": "tomzx/finder",
+	"description": "Finder",
+	"type": "library",
+	"keywords": [
+		"finder"
+	],
+	"homepage": "https://github.com/tomzx/finder",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Tom Rochette",
+			"email": "tom@tomrochette.com",
+			"homepage": "http://www.tomrochette.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/tomzx/finder/issues"
+	},
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4"
+	},
+	"autoload": {
+		"psr-4": {
+			"Finder\\": "src/Finder"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Finder\\Test\\": "tests/Finder"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "0.1-dev"
+		}
+	}
+}
