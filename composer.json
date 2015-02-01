@@ -1,6 +1,6 @@
 {
 	"name": "tomzx/finder",
-	"description": "Finder",
+	"description": "Improved, Symfony Finder compatible finder.",
 	"type": "library",
 	"keywords": [
 		"finder"
