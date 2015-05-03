@@ -10,7 +10,6 @@ use Finder\FilenameMatch;
 use Finder\Finder;
 use Finder\FinderInterface;
 use LogicException;
-use SplFileInfo;
 
 class SymfonyFinder  implements FinderInterface
 {
@@ -20,9 +19,12 @@ class SymfonyFinder  implements FinderInterface
 	const IGNORE_VCS_FILES = 1;
 	const IGNORE_DOT_FILES = 2;
 
-	protected $finder;
-
 	protected $dirs;
+
+	protected $names = [];
+	protected $notNames = [];
+	protected $paths = [];
+	protected $notPaths = [];
 
 	protected $mode = 0;
 	protected $ignore = 0;
@@ -42,7 +44,7 @@ class SymfonyFinder  implements FinderInterface
 	{
 		$this->ignore = static::IGNORE_VCS_FILES | static::IGNORE_DOT_FILES;
 
-		$this->finder = new Finder();
+		//$this->finder = new Finder();
 	}
 
 	public static function create()
@@ -87,7 +89,7 @@ class SymfonyFinder  implements FinderInterface
 	public function name($pattern)
 	{
 		$regex = FilenameMatch::translate($pattern);
-		$this->finder->includes($regex);
+		$this->names[] = $regex;
 
 		return $this;
 	}
@@ -95,7 +97,7 @@ class SymfonyFinder  implements FinderInterface
 	public function notName($pattern)
 	{
 		$regex = FilenameMatch::translate($pattern);
-		$this->finder->excludes($regex);
+		$this->notNames[] = $regex;
 
 		return $this;
 	}
@@ -119,7 +121,7 @@ class SymfonyFinder  implements FinderInterface
 	public function path($pattern)
 	{
 		$regex = FilenameMatch::translate($pattern);
-		$this->finder->includes($regex);
+		$this->paths[] = $regex;
 
 		return $this;
 	}
@@ -127,7 +129,7 @@ class SymfonyFinder  implements FinderInterface
 	public function notPath($pattern)
 	{
 		$regex = FilenameMatch::translate($pattern);
-		$this->finder->excludes($regex);
+		$this->notPaths[] = $regex;
 
 		return $this;
 	}
@@ -140,10 +142,11 @@ class SymfonyFinder  implements FinderInterface
 		return $this;
 	}
 
+	// TODO: Support this <tom@tomrochette.com>
 	public function exclude($dir)
 	{
-		$regex = preg_replace('/(?:\\|\/)*$/', DIRECTORY_SEPARATOR, $dir);
-		$this->finder->excludes($regex);
+//		$regex = preg_replace('/(?:\\|\/)*$/', DIRECTORY_SEPARATOR, $dir);
+//		$this->finder->excludes($regex);
 
 		return $this;
 	}
@@ -264,14 +267,16 @@ class SymfonyFinder  implements FinderInterface
 			throw new LogicException('You must call in() method before iterating over a Finder.');
 		}
 
+		$finder = $this->buildFinder();
+
 		if (count($this->dirs) === 1) {
-			$files = $this->finder->search($this->dirs[0]);
+			$files = $finder->search($this->dirs[0]);
 			return new ArrayIterator($files);
 		}
 
 		$iterator = new \AppendIterator();
 		foreach ($this->dirs as $dir) {
-			$iterator->append(new ArrayIterator($this->finder->search($dir)));
+			$iterator->append(new ArrayIterator($finder->search($dir)));
 		}
 
 		return $iterator;
@@ -280,4 +285,23 @@ class SymfonyFinder  implements FinderInterface
 	public function count()
 	{
 		return iterator_count($this->getIterator());
-	}}
+	}
+
+	private function buildFinder()
+	{
+		$finder = new Finder();
+
+		$finder->includes($this->buildPathRegex($this->paths, $this->names))
+			->excludes($this->buildPathRegex($this->notPaths, $this->notNames));
+
+		return $finder;
+	}
+
+	private function buildPathRegex(array $paths, array $names)
+	{
+		if (! $paths && ! $names) {
+			return null;
+		}
+		return '(?:'.implode('|', $paths).').*(?:'.implode('|', $names).')$';
+	}
+}

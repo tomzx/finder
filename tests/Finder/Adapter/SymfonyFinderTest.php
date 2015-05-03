@@ -57,11 +57,29 @@ class SymfonyFinderTest extends \PHPUnit_Framework_TestCase {
 		$this->assertCount(4, $files);
 	}
 
-	public function testNotNamePath()
+	public function testNotName()
 	{
 		$files = SymfonyFinder::create()
 			->in($this->fixtures())
 			->notName('.txt');
 		$this->assertCount(10, $files);
+	}
+
+	public function testNameAndPath()
+	{
+		$files = SymfonyFinder::create()
+			->in($this->fixtures())
+			->path('with space')
+			->name('.txt');
+		$this->assertCount(1, $files);
+	}
+
+	public function testNotNameAndPath()
+	{
+		$files = SymfonyFinder::create()
+			->in($this->fixtures())
+			->path('one')
+			->notName('.neon');
+		$this->assertCount(1, $files);
 	}
 }
