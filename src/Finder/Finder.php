@@ -32,7 +32,7 @@ class Finder
 	}
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @return \SplFileInfo[]
 	 */
 	public function search($path)
@@ -40,17 +40,17 @@ class Finder
 		$includes = $this->includes;
 		$excludes = $this->excludes;
 
-		$includesRegex = '`' . implode('|', $includes) . '`S';
-		$excludesRegex = '`' . implode('|', $excludes) . '`S';
+		$includesRegex = $this->buildListRegex($includes);
+		$excludesRegex = $this->buildListRegex($excludes);
 		// TODO: Cannot do this if | is used to escape spaces <tom@tomrochette.com>
-		$path = preg_replace('`(?:\\\\|\/)+`', '/', $path);
+		$path = preg_replace('/(?:\\\\|\/)+/', '/', $path);
 		$path = rtrim($path, '/') . '/';
 
 		$fileList = [];
 		$directoryQueue = [$path];
 		while ($currentDirectory = array_pop($directoryQueue)) {
 			foreach ($this->getFilesInPath($currentDirectory) as $file) {
-				$file = preg_replace('`(?:\\\\|\/)+`', '/', $file);
+				$file = preg_replace('/(?:\\\\|\/)+/', '/', $file);
 				if ($excludes && preg_match($excludesRegex, $file)) {
 					continue;
 				}
@@ -83,11 +83,24 @@ class Finder
 		return $this->getFilesInPathUsingGlob($path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return array
+	 */
 	private function getFilesInPathUsingGlob($path)
 	{
 		$from = [ '[', '*', '?'];
 		$to = ['[[]', '[*]', '[?]'];
 		$path = str_replace($from, $to, $path);
 		return glob($path . '*', GLOB_MARK);
+	}
+
+	/**
+	 * @param array $items
+	 * @return string
+	 */
+	private function buildListRegex(array $items)
+	{
+		return '/' . implode('|', $items) . '/S';
 	}
 }

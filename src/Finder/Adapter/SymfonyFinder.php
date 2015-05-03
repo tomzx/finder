@@ -6,12 +6,13 @@ use ArrayIterator;
 use Closure;
 use Finder\Comparator\DateComparator;
 use Finder\Comparator\NumberComparator;
+use Finder\FilenameMatch;
 use Finder\Finder;
 use Finder\FinderInterface;
 use LogicException;
 use SplFileInfo;
 
-class SymfonyFinder implements FinderInterface
+class SymfonyFinder  implements FinderInterface
 {
 	const ONLY_FILES = 1;
 	const ONLY_DIRECTORIES = 2;
@@ -85,7 +86,7 @@ class SymfonyFinder implements FinderInterface
 	// TODO: Support arrays <tom@tomrochette.com>
 	public function name($pattern)
 	{
-		$regex = $pattern.'$';
+		$regex = FilenameMatch::translate($pattern);
 		$this->finder->includes($regex);
 
 		return $this;
@@ -93,7 +94,7 @@ class SymfonyFinder implements FinderInterface
 
 	public function notName($pattern)
 	{
-		$regex = $pattern.'$';
+		$regex = FilenameMatch::translate($pattern);
 		$this->finder->excludes($regex);
 
 		return $this;
@@ -117,14 +118,16 @@ class SymfonyFinder implements FinderInterface
 
 	public function path($pattern)
 	{
-		$this->finder->includes($pattern);
+		$regex = FilenameMatch::translate($pattern);
+		$this->finder->includes($regex);
 
 		return $this;
 	}
 
 	public function notPath($pattern)
 	{
-		$this->finder->excludes($pattern);
+		$regex = FilenameMatch::translate($pattern);
+		$this->finder->excludes($regex);
 
 		return $this;
 	}

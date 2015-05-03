@@ -53,7 +53,7 @@ class SymfonyFinderTest extends \PHPUnit_Framework_TestCase {
 	{
 		$files = SymfonyFinder::create()
 			->in($this->fixtures())
-			->name('\.txt');
+			->name('.txt');
 		$this->assertCount(4, $files);
 	}
 
@@ -61,7 +61,7 @@ class SymfonyFinderTest extends \PHPUnit_Framework_TestCase {
 	{
 		$files = SymfonyFinder::create()
 			->in($this->fixtures())
-			->notName('\.txt');
+			->notName('.txt');
 		$this->assertCount(10, $files);
 	}
 }
