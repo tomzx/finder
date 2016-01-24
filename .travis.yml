@@ -9,8 +9,6 @@ php:
 
 sudo: false
 
-sudo: false
-
 before_script:
     - composer self-update
     - composer update
