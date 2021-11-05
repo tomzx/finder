@@ -3,8 +3,10 @@
 namespace Finder\Test\Adapter;
 
 use Finder\Adapter\SymfonyFinder;
+use PHPUnit\Framework\TestCase;
 
-class SymfonyFinderTest extends \PHPUnit_Framework_TestCase {
+class SymfonyFinderTest extends TestCase
+{
 	protected function fixtures($path = '')
 	{
 		return __DIR__.'/../Fixtures/'.$path;

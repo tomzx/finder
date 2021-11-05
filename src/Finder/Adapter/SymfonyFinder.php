@@ -261,6 +261,7 @@ class SymfonyFinder  implements FinderInterface
 	{
 	}
 
+    #[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		if (count($this->dirs) === 0) {
@@ -282,6 +283,7 @@ class SymfonyFinder  implements FinderInterface
 		return $iterator;
 	}
 
+    #[\ReturnTypeWillChange]
 	public function count()
 	{
 		return iterator_count($this->getIterator());

@@ -1,6 +1,5 @@
 <?php
-
-/*
+/**
  * This file is part of the Symfony package.
  *
  * (c) Fabien Potencier <fabien@symfony.com>
@@ -12,8 +11,9 @@
 namespace Finder\Test\Comparator;
 
 use Finder\Comparator\NumberComparator;
+use PHPUnit\Framework\TestCase;
 
-class NumberComparatorTest extends \PHPUnit_Framework_TestCase
+class NumberComparatorTest extends TestCase
 {
 	/**
 	 * @dataProvider getConstructorTestData

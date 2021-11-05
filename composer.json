@@ -11,7 +11,7 @@
 		{
 			"name": "Tom Rochette",
 			"email": "tom@tomrochette.com",
-			"homepage": "http://www.tomrochette.com"
+			"homepage": "https://www.tomrochette.com/"
 		}
 	],
 	"support": {
@@ -21,7 +21,7 @@
 		"php": ">=5.4.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "~4"
+		"phpunit/phpunit": "^9"
 	},
 	"autoload": {
 		"psr-4": {

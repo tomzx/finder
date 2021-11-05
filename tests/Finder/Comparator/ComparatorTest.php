@@ -12,8 +12,9 @@
 namespace Finder\Test\Comparator;
 
 use Finder\Comparator\Comparator;
+use PHPUnit\Framework\TestCase;
 
-class ComparatorTest extends \PHPUnit_Framework_TestCase
+class ComparatorTest extends TestCase
 {
 	public function testGetSetOperator()
 	{
