@@ -3,8 +3,9 @@
 namespace Finder\Test;
 
 use Finder\Finder;
+use PHPUnit\Framework\TestCase;
 
-class FinderTest extends \PHPUnit_Framework_TestCase
+class FinderTest extends TestCase
 {
 	protected function fixtures($path = '')
 	{

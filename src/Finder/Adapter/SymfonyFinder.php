@@ -261,7 +261,7 @@ class SymfonyFinder  implements FinderInterface
 	{
 	}
 
-	public function getIterator()
+	public function getIterator(): \Traversable
 	{
 		if (count($this->dirs) === 0) {
 			throw new LogicException('You must call in() method before iterating over a Finder.');
@@ -282,7 +282,7 @@ class SymfonyFinder  implements FinderInterface
 		return $iterator;
 	}
 
-	public function count()
+	public function count(): int
 	{
 		return iterator_count($this->getIterator());
 	}

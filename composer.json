@@ -11,17 +11,17 @@
 		{
 			"name": "Tom Rochette",
 			"email": "tom@tomrochette.com",
-			"homepage": "http://www.tomrochette.com"
+			"homepage": "https://www.tomrochette.com"
 		}
 	],
 	"support": {
 		"issues": "https://github.com/tomzx/finder/issues"
 	},
 	"require": {
-		"php": ">=5.4.0"
+		"php": ">=7.3"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "~4"
+		"phpunit/phpunit": "^9.5"
 	},
 	"autoload": {
 		"psr-4": {
